@@ -19,9 +19,18 @@ import { ref } from 'vue';
 import { store } from '../composables/useStore';
 import { sendDiscordNotification } from '../composables/useNotify';
 
+// 寫死的預設 Webhook
+const DEFAULT_WEBHOOK = "https://discord.com/api/webhooks/1410701038159396884/YP7VEFfjvq6ZIl4HZPZ6-gRYiExx_ZI7zxAkaPg-EU347MyqI2ySLn4wP8KTg9kFHNM6";
 
-const webhook = ref(store.settings?.notify?.discordWebhookUrl || '');
+// 初始化 webhook: 先讀 localStorage 的 store，如果沒有就用預設
+const webhook = ref(
+  store.settings?.notify?.discordWebhookUrl || DEFAULT_WEBHOOK
+);
 
+// 同步回 store(避免每次刷新又是空的)
+watch(webhook, (val) => {
+  store.settings.notify = { ...store.settings.notify, discordWebhookUrl: val };
+}, { immediate: true });
 
 function save(){
 store.settings.notify = { ...store.settings.notify, discordWebhookUrl: webhook.value };
