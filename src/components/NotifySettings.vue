@@ -15,7 +15,7 @@
 
 
 <script setup>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { store } from '../composables/useStore';
 import { sendDiscordNotification } from '../composables/useNotify';
 
