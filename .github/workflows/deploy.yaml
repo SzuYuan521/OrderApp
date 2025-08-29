@@ -26,6 +26,8 @@ jobs:
         run: npm ci || npm i
 
       - name: Build
+        env:
+          BASE_URL: '/OrderApp/'
         run: npm run build
 
       - name: Upload artifact
